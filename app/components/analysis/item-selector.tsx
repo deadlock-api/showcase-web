@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 // Define the weapon names by tier for organization
 const weaponsByTier = {
-  500: [
+  T1: [
     "Basic Magazine",
     "Close Quarters",
     "Headshot Booster",
@@ -15,7 +15,7 @@ const weaponsByTier = {
     "Rapid Rounds",
     "Restorative Shot",
   ],
-  1250: [
+  T2: [
     "Active Reload",
     "Berserker",
     "Fleetfoot",
@@ -27,7 +27,7 @@ const weaponsByTier = {
     "Soul Shredder Bullets",
     "Swift Striker",
   ],
-  3000: [
+  T3: [
     "Alchemical Fire",
     "Burst Fire",
     "Escalating Resilience",
@@ -43,7 +43,7 @@ const weaponsByTier = {
     "Toxic Bullets",
     "Warp Stone",
   ],
-  6200: [
+  T4: [
     "Crippling Headshot",
     "Frenzy",
     "Glass Cannon",
@@ -60,7 +60,7 @@ const weaponsByTier = {
 const itemsByCategory = {
   Weapon: weaponsByTier,
   Vitality: {
-    500: [
+    T1: [
       "Enduring Spirit",
       "Extra Health",
       "Extra Regen",
@@ -69,7 +69,7 @@ const itemsByCategory = {
       "Melee Lifesteal",
       "Sprint Boots",
     ],
-    1250: [
+    T2: [
       "Bullet Armor",
       "Bullet Lifesteal",
       "Combat Barrier",
@@ -86,7 +86,7 @@ const itemsByCategory = {
       "Spirit Armor",
       "Spirit Lifesteal",
     ],
-    3000: [
+    T3: [
       "Debuff Remover",
       "Fortitude",
       "Improved Bullet Armor",
@@ -98,11 +98,11 @@ const itemsByCategory = {
       "Superior Stamina",
       "Veil Walker",
     ],
-    6200: ["Colossus", "Inhibitor", "Leech", "Phantom Strike", "Siphon Bullets", "Soul Rebirth", "Unstoppable"],
+    T4: ["Colossus", "Inhibitor", "Leech", "Phantom Strike", "Siphon Bullets", "Soul Rebirth", "Unstoppable"],
   },
   Spirit: {
-    500: ["Ammo Scavenger", "Extra Charge", "Extra Spirit", "Infuser", "Mystic Burst", "Mystic Reach", "Spirit Strike"],
-    1250: [
+    T1: ["Ammo Scavenger", "Extra Charge", "Extra Spirit", "Infuser", "Mystic Burst", "Mystic Reach", "Spirit Strike"],
+    T2: [
       "Bullet Resist Shredder",
       "Cold Front",
       "Decay",
@@ -114,7 +114,7 @@ const itemsByCategory = {
       "Suppressor",
       "Withering Whip",
     ],
-    3000: [
+    T3: [
       "Ethereal Shift",
       "Improved Burst",
       "Improved Reach",
@@ -128,7 +128,7 @@ const itemsByCategory = {
       "Surge of Power",
       "Torment Pulse",
     ],
-    6200: [
+    T4: [
       "Boundless Spirit",
       "Curse",
       "Diviner's Kevlar",
@@ -192,9 +192,9 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
           </div>
         </div>
       )}
-      {([500, 1250, 3000, 6200] as const).map((tier) => (
+      {(["T1", "T2", "T3", "T4"] as const).map((tier) => (
         <div key={tier} className="space-y-2">
-          <h4 className="font-medium">Tier {tier}:</h4>
+          <h4 className="font-medium">{tier}</h4>
           <div className="grid grid-cols-4 gap-2">
             {itemsByCategory[category][tier].map((itemName) => {
               const item = Item.byName(itemName);

@@ -15,17 +15,26 @@ export function DeadlockAnalysis() {
       <Card>
         <CardHeader>
           <CardTitle>Deadlock Winrate Analysis</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Data from latest patch (2024-12-06) to present, with only Oracle+ ranked matches considered
+          </p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Hero Selection */}
           <div className="space-y-2">
-            <h3 className="text-lg font-medium">Choose your Hero...</h3>
+            <div className="space-y-1.5">
+              <p className="text-sm font-medium text-muted-foreground">STEP 1</p>
+              <h3 className="text-lg font-medium">Choose your Hero</h3>
+            </div>
             <HeroSelector />
           </div>
 
           {/* Item Selection */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Pick starting items...</h3>
+            <div className="space-y-1.5">
+              <p className="text-sm font-medium text-muted-foreground">STEP 2</p>
+              <h3 className="text-lg font-medium">Filter and exclude build items</h3>
+            </div>
             <Tabs defaultValue="Weapon">
               <TabsList>
                 <TabsTrigger value="Weapon">Weapon Items</TabsTrigger>
