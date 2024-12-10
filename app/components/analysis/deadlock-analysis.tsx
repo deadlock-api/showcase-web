@@ -54,17 +54,17 @@ export function DeadlockAnalysis() {
           </div>
 
           {/* Selected and Excluded Items Display */}
-          <div className="space-y-4">
+          <div className="space-y-2">
             {selectedItems.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Required Items:</h3>
-                <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium">Required Items:</h3>
+                <div className="grid grid-cols-4 gap-1">
                   {selectedItems
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
-                      <div key={item.id} className="rounded-lg border border-primary bg-primary/10 p-2">
-                        T{item.tier}: {item.name}
+                      <div key={item.id} className="rounded border border-primary bg-primary/10 px-2 py-1 text-sm">
+                        {item.name}
                       </div>
                     ))}
                 </div>
@@ -72,15 +72,18 @@ export function DeadlockAnalysis() {
             )}
 
             {excludedItems.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium">Excluded Items:</h3>
-                <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium">Excluded Items:</h3>
+                <div className="grid grid-cols-4 gap-1">
                   {excludedItems
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
-                      <div key={item.id} className="rounded-lg border border-destructive bg-destructive/10 p-2">
-                        T{item.tier}: {item.name}
+                      <div
+                        key={item.id}
+                        className="rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm"
+                      >
+                        {item.name}
                       </div>
                     ))}
                 </div>

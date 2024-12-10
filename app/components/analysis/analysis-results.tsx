@@ -50,7 +50,7 @@ export function AnalysisResults() {
       <div>
         <h3 className="text-lg font-medium">Analysis Results</h3>
         <p className="text-sm text-muted-foreground">
-          Based on the items you chose, here are the other highest correlated win-rate and pick-rate items
+          Based on the items you chose, here are the other highest correlated win-rate items.
         </p>
       </div>
 

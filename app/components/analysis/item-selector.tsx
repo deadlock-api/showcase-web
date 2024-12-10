@@ -176,13 +176,13 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
   };
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-2 p-2">
       {(selectedItems.length > 0 || excludedItems.length > 0) && (
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" className="text-sm text-muted-foreground" onClick={handleDeselectAll}>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" className="h-8 text-sm text-muted-foreground" onClick={handleDeselectAll}>
             Clear All
           </Button>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <div className="h-3 w-3 rounded border border-primary bg-primary" /> Selected
             </div>
@@ -193,9 +193,9 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
         </div>
       )}
       {(["T1", "T2", "T3", "T4"] as const).map((tier) => (
-        <div key={tier} className="space-y-2">
+        <div key={tier} className="space-y-1">
           <h4 className="font-medium">{tier}</h4>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-5 gap-1">
             {itemsByCategory[category][tier].map((itemName) => {
               const item = Item.byName(itemName);
               const isSelected = selectedItems.includes(item.id);
@@ -205,7 +205,7 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
                 <Button
                   key={item.id}
                   variant={isSelected ? "default" : isExcluded ? "destructive" : "outline"}
-                  className={cn("w-full", isExcluded && "hover:bg-destructive/90")}
+                  className={cn("w-full h-8 text-sm px-2", isExcluded && "hover:bg-destructive/90")}
                   onClick={() => handleItemClick(item.id)}
                 >
                   {item.name}
