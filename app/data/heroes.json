@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "name": "Infernus",
+    "development": false
+  },
+  {
+    "id": 2,
+    "name": "Seven",
+    "development": false
+  },
+  {
+    "id": 3,
+    "name": "Vindicta",
+    "development": false
+  },
+  {
+    "id": 4,
+    "name": "Lady Geist",
+    "development": false
+  },
+  {
+    "id": 6,
+    "name": "Abrams",
+    "development": false
+  },
+  {
+    "id": 7,
+    "name": "Wraith",
+    "development": false
+  },
+  {
+    "id": 8,
+    "name": "McGinnis",
+    "development": false
+  },
+  {
+    "id": 10,
+    "name": "Paradox",
+    "development": false
+  },
+  {
+    "id": 11,
+    "name": "Dynamo",
+    "development": false
+  },
+  {
+    "id": 12,
+    "name": "Kelvin",
+    "development": false
+  },
+  {
+    "id": 13,
+    "name": "Haze",
+    "development": false
+  },
+  {
+    "id": 14,
+    "name": "Holliday",
+    "development": true
+  },
+  {
+    "id": 15,
+    "name": "Bebop",
+    "development": false
+  },
+  {
+    "id": 16,
+    "name": "Calico",
+    "development": true
+  },
+  {
+    "id": 17,
+    "name": "Grey Talon",
+    "development": false
+  },
+  {
+    "id": 18,
+    "name": "Mo & Krill",
+    "development": false
+  },
+  {
+    "id": 19,
+    "name": "Shiv",
+    "development": false
+  },
+  {
+    "id": 20,
+    "name": "Ivy",
+    "development": false
+  },
+  {
+    "id": 25,
+    "name": "Warden",
+    "development": false
+  },
+  {
+    "id": 27,
+    "name": "Yamato",
+    "development": false
+  },
+  {
+    "id": 31,
+    "name": "Lash",
+    "development": false
+  },
+  {
+    "id": 35,
+    "name": "Viscous",
+    "development": false
+  },
+  {
+    "id": 48,
+    "name": "Wrecker",
+    "development": true
+  },
+  {
+    "id": 50,
+    "name": "Pocket",
+    "development": false
+  },
+  {
+    "id": 52,
+    "name": "Mirage",
+    "development": false
+  }
+]
