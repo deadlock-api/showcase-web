@@ -1,8 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAnalysisStore } from "@/stores/analysis.store";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, ArrowUpDown } from "lucide-react";
 import type { ItemData } from "@/lib/Item";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 // Wilson score interval for 95% confidence
 function wilsonScore(wins: number, total: number): number {
@@ -30,20 +32,61 @@ function getItemTypeColor(item: ItemData): string {
   }
 }
 
+type SortField = "wilson" | "raw" | "sample";
+type SortDirection = "asc" | "desc";
+
 export function AnalysisResults() {
-  const { analysisResult } = useAnalysisStore();
+  const { analysisResult, selectedItems } = useAnalysisStore();
+  const [sortField, setSortField] = useState<SortField>("wilson");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 
   if (!analysisResult) return null;
 
+  // Calculate max sample size once
+  const maxSampleSize = Math.max(...analysisResult.winRate.map((result) => result.sampleSize));
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("desc");
+    }
+  };
+
   const sortedWinRateResult = analysisResult.winRate.toSorted((a, b) => {
-    const wins = Math.round(a.winRate * a.sampleSize);
-    const lowerBound = wilsonScore(wins, a.sampleSize);
+    let comparison = 0;
 
-    const winsB = Math.round(b.winRate * b.sampleSize);
-    const lowerBoundB = wilsonScore(winsB, b.sampleSize);
+    switch (sortField) {
+      case "wilson": {
+        const winsA = Math.round(a.winRate * a.sampleSize);
+        const winsB = Math.round(b.winRate * b.sampleSize);
+        const lowerBoundA = wilsonScore(winsA, a.sampleSize);
+        const lowerBoundB = wilsonScore(winsB, b.sampleSize);
+        comparison = lowerBoundB - lowerBoundA;
+        break;
+      }
+      case "raw":
+        comparison = b.winRate - a.winRate;
+        break;
+      case "sample":
+        comparison = b.sampleSize - a.sampleSize;
+        break;
+    }
 
-    return lowerBoundB - lowerBound;
+    return sortDirection === "asc" ? -comparison : comparison;
   });
+
+  const getSortIcon = (field: SortField) => {
+    return (
+      <ArrowUpDown
+        className={cn(
+          "ml-1 h-4 w-4 inline-block transition-colors",
+          sortField === field ? "text-foreground" : "text-muted-foreground/50",
+        )}
+      />
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -60,12 +103,16 @@ export function AnalysisResults() {
           <TableHeader className="bg-muted/50">
             <TableRow className="hover:bg-transparent">
               <TableHead className="h-8 whitespace-nowrap">Item</TableHead>
-              <TableHead className="h-8 text-right whitespace-nowrap flex items-center justify-end gap-1">
+              <TableHead
+                className="h-8 text-right whitespace-nowrap flex items-center justify-end gap-1 cursor-pointer"
+                onClick={() => handleSort("wilson")}
+              >
                 Conservative Win Rate
+                {getSortIcon("wilson")}
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <InfoIcon className="h-4 w-5 text-muted-foreground" />
+                      <InfoIcon className="h-4 w-4 ml-1 text-muted-foreground" />
                     </TooltipTrigger>
                     <TooltipContent side="top">
                       <p>
@@ -76,8 +123,15 @@ export function AnalysisResults() {
                   </Tooltip>
                 </TooltipProvider>
               </TableHead>
-              <TableHead className="h-8 text-right whitespace-nowrap">Raw Win Rate</TableHead>
-              <TableHead className="h-8 text-right whitespace-nowrap">Sample Size</TableHead>
+              <TableHead className="h-8 text-right whitespace-nowrap cursor-pointer" onClick={() => handleSort("raw")}>
+                Raw Win Rate {getSortIcon("raw")}
+              </TableHead>
+              <TableHead
+                className="h-8 text-right whitespace-nowrap cursor-pointer"
+                onClick={() => handleSort("sample")}
+              >
+                Sample Size {getSortIcon("sample")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -85,11 +139,16 @@ export function AnalysisResults() {
               const wins = Math.round(result.winRate * result.sampleSize);
               const lowerBound = wilsonScore(wins, result.sampleSize);
               const itemTypeColor = getItemTypeColor(result.item);
+              const isSelected = selectedItems.some((item) => item === result.item.id);
+              const presenceRatio = ((result.sampleSize / maxSampleSize) * 100).toFixed(1);
 
               return (
-                <TableRow key={result.item.id} className="hover:bg-muted/50">
+                <TableRow
+                  key={result.item.id}
+                  className={cn("hover:bg-muted/50", isSelected && "bg-slate-100 hover:bg-slate-100/75")}
+                >
                   <TableCell className="h-7 py-1">
-                    <span className={`inline-flex rounded-md px-2 py-0.5 text-sm ${itemTypeColor}`}>
+                    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-sm ${itemTypeColor}`}>
                       {result.item.name}
                       <span className="ml-1 opacity-70">T{result.item.tier}</span>
                     </span>
@@ -100,6 +159,7 @@ export function AnalysisResults() {
                   </TableCell>
                   <TableCell className="h-7 py-1 text-right tabular-nums">
                     {result.sampleSize.toLocaleString()}
+                    <span className="text-muted-foreground ml-1">({presenceRatio}%)</span>
                   </TableCell>
                 </TableRow>
               );
