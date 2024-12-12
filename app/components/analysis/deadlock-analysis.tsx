@@ -6,9 +6,18 @@ import { HeroSelector } from "./hero-selector";
 import { ItemSelector } from "./item-selector";
 import { AnalysisResults } from "./analysis-results";
 import { Item } from "../../lib/Item";
+import { cn } from "@/lib/utils";
 
 export function DeadlockAnalysis() {
-  const { selectedHero, selectedItems, excludedItems, isLoading, submitAnalysis } = useAnalysisStore();
+  const {
+    selectedHero,
+    selectedItems,
+    excludedItems,
+    isLoading,
+    submitAnalysis,
+    removeSelectedItem,
+    removeExcludedItem,
+  } = useAnalysisStore();
 
   return (
     <div className="container mx-auto p-6">
@@ -63,9 +72,21 @@ export function DeadlockAnalysis() {
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
-                      <div key={item.id} className="rounded border border-primary bg-primary/10 px-2 py-1 text-sm">
+                      <button
+                        type="button"
+                        key={item.id}
+                        onClick={() => removeSelectedItem(item.id)}
+                        className={cn(
+                          "rounded border border-primary bg-primary/10 px-2 py-1 text-sm",
+                          "hover:bg-primary/20 hover:border-primary/50 cursor-pointer",
+                          "transition-colors duration-200 group relative",
+                        )}
+                      >
                         {item.name}
-                      </div>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          -
+                        </span>
+                      </button>
                     ))}
                 </div>
               </div>
@@ -79,12 +100,21 @@ export function DeadlockAnalysis() {
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
-                      <div
+                      <button
+                        type="button"
                         key={item.id}
-                        className="rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm"
+                        onClick={() => removeExcludedItem(item.id)}
+                        className={cn(
+                          "rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm",
+                          "hover:bg-destructive/20 hover:border-destructive/50 cursor-pointer",
+                          "transition-colors duration-200 group relative",
+                        )}
                       >
                         {item.name}
-                      </div>
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          -
+                        </span>
+                      </button>
                     ))}
                 </div>
               </div>

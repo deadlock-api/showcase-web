@@ -48,7 +48,7 @@ export const Item = {
   compare(a: ItemData, b: ItemData): number {
     // First compare by tier
     if (a.tier !== b.tier) {
-      return a.tier - b.tier;  // Lower tier first
+      return a.tier - b.tier; // Lower tier first
     }
     // If tiers are equal, compare by name
     return a.name.localeCompare(b.name);

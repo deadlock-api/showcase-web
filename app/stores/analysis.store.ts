@@ -138,8 +138,6 @@ export const useAnalysisStore = create(
     version: 0,
     name: "analysis-store",
     partialize: (state) =>
-      Object.fromEntries(
-        Object.entries(state).filter(([key]) => !['analysisResult'].includes(key)),
-      ),
+      Object.fromEntries(Object.entries(state).filter(([key]) => !["analysisResult"].includes(key))),
   }),
 );
