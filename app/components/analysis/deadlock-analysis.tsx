@@ -7,6 +7,7 @@ import { ItemSelector } from "./item-selector";
 import { AnalysisResults } from "./analysis-results";
 import { Item } from "../../lib/Item";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function DeadlockAnalysis() {
   const {
@@ -17,6 +18,8 @@ export function DeadlockAnalysis() {
     submitAnalysis,
     removeSelectedItem,
     removeExcludedItem,
+    minBadgeLevel,
+    setMinBadgeLevel,
   } = useAnalysisStore();
 
   return (
@@ -24,18 +27,34 @@ export function DeadlockAnalysis() {
       <Card>
         <CardHeader>
           <CardTitle>Deadlock Winrate Analysis</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Data from latest patch (2024-12-06) to present, with only Oracle+ ranked matches considered
-          </p>
+          <p className="text-sm text-muted-foreground">Data from latest patch (2024-12-06) to present</p>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Hero Selection */}
+          {/* Hero and Rank Selection */}
           <div className="space-y-2">
             <div className="space-y-1.5">
               <p className="text-sm font-medium text-muted-foreground">STEP 1</p>
-              <h3 className="text-lg font-medium">Choose your Hero</h3>
+              <h3 className="text-lg font-medium">Choose your Hero and Rank Filter</h3>
             </div>
-            <HeroSelector />
+            <div className="inline-flex gap-4 items-start">
+              <div>
+                <HeroSelector />
+              </div>
+              <div>
+                <Select value={minBadgeLevel.toString()} onValueChange={(value) => setMinBadgeLevel(Number(value))}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Minimum Rank" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="70">Archon+</SelectItem>
+                    <SelectItem value="80">Oracle+</SelectItem>
+                    <SelectItem value="90">Phantom+</SelectItem>
+                    <SelectItem value="100">Ascendant+</SelectItem>
+                    <SelectItem value="110">Eternus+</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
 
           {/* Item Selection */}

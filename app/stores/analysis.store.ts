@@ -24,6 +24,7 @@ type AnalysisState = {
   analysisResult: AnalysisResult | null;
   isLoading: boolean;
   excludedItems: number[];
+  minBadgeLevel: number;
 };
 
 type Actions = {
@@ -35,6 +36,7 @@ type Actions = {
   removeExcludedItem: (itemId: number) => void;
   removeManyExcludedItems: (itemIds: number[]) => void;
   submitAnalysis: () => Promise<void>;
+  setMinBadgeLevel: (level: number) => void;
 };
 
 const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", unknown]]> = (set, get) => ({
@@ -43,6 +45,7 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
   analysisResult: null,
   isLoading: false,
   excludedItems: [],
+  minBadgeLevel: 80,
 
   setSelectedHero: (hero) => set({ selectedHero: hero }),
 
@@ -76,12 +79,15 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
       excludedItems: state.excludedItems.filter((id) => !itemIds.includes(id)),
     })),
 
+  setMinBadgeLevel: (level: number) => set({ minBadgeLevel: level }),
+
   submitAnalysis: async () => {
     set({ isLoading: true });
 
     const selectedHero = get().selectedHero;
     const selectedItems = get().selectedItems;
     const excludedItems = get().excludedItems;
+    const minBadgeLevel = get().minBadgeLevel;
 
     if (!selectedHero || (selectedItems.length === 0 && excludedItems.length === 0)) {
       set({ isLoading: false });
@@ -91,6 +97,7 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
     try {
       const queryParams = new URLSearchParams();
       queryParams.set("hero_id", selectedHero.toString());
+      queryParams.set("min_badge_level", minBadgeLevel.toString());
 
       const result = await fetch(
         `https://analytics.deadlock-api.com/v1/dev/win-rate-analysis?${queryParams.toString()}`,
