@@ -147,11 +147,27 @@ const createURLStorage = <S>(keys: StateKeys<S>): PersistStorage<S> => ({
   getItem: (name) => {
     if (typeof window === "undefined") return null;
 
-    const params = new URLSearchParams(window.location.search);
-    const str = params.get(name);
+    // Try URL first, then localStorage as fallback
+    let str = new URLSearchParams(window.location.search).get(name);
+    if (!str) {
+      try {
+        str = localStorage.getItem(name);
+      } catch (error) {
+        console.error("Failed to load state from localStorage:", error);
+      }
+    }
     if (!str) return null;
 
     try {
+      // Save URL state to localStorage if it exists
+      if (str === new URLSearchParams(window.location.search).get(name)) {
+        try {
+          localStorage.setItem(name, str);
+        } catch (error) {
+          console.error("Failed to save state to localStorage:", error);
+        }
+      }
+
       // Convert base64 to Uint8Array
       const binaryString = atob(str);
       const bytes = new Uint8Array(binaryString.length);
@@ -166,7 +182,7 @@ const createURLStorage = <S>(keys: StateKeys<S>): PersistStorage<S> => ({
         state: Object.fromEntries(keys.map((key, index) => [key, state[index]])) as S,
       };
     } catch (error) {
-      console.error("Failed to decode state from URL:", error);
+      console.error("Failed to decode state:", error);
       return null;
     }
   },
@@ -174,7 +190,6 @@ const createURLStorage = <S>(keys: StateKeys<S>): PersistStorage<S> => ({
   setItem: (name, value) => {
     if (typeof window === "undefined") return;
 
-    const params = new URLSearchParams(window.location.search);
     // Convert object to array format using the provided keys order
     const arrayState = keys.map((key) => value.state[key]);
     const encoded = encode([value.version, arrayState]);
@@ -186,16 +201,31 @@ const createURLStorage = <S>(keys: StateKeys<S>): PersistStorage<S> => ({
     }
     const base64 = btoa(binaryString);
 
+    // Update both URL and localStorage
+    const params = new URLSearchParams(window.location.search);
     params.set(name, base64);
     window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+
+    try {
+      localStorage.setItem(name, base64);
+    } catch (error) {
+      console.error("Failed to save state to localStorage:", error);
+    }
   },
 
   removeItem: (name) => {
     if (typeof window === "undefined") return;
 
+    // Remove from both URL and localStorage
     const params = new URLSearchParams(window.location.search);
     params.delete(name);
     window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+
+    try {
+      localStorage.removeItem(name);
+    } catch (error) {
+      console.error("Failed to remove state from localStorage:", error);
+    }
   },
 });
 
