@@ -1,7 +1,8 @@
-import { persist } from "zustand/middleware";
+import { persist, StorageValue, type PersistStorage } from "zustand/middleware";
 import { create } from "zustand/react";
 import { Item, type ItemData } from "../lib/Item";
 import type { StateCreator } from "zustand/vanilla";
+import { encode, decode } from "@msgpack/msgpack";
 
 export type ItemCategory = "Weapon" | "Vitality" | "Spirit";
 
@@ -140,11 +141,81 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
   },
 });
 
+type StateKeys<S> = readonly (keyof S)[];
+
+const createURLStorage = <S>(keys: StateKeys<S>): PersistStorage<S> => ({
+  getItem: (name) => {
+    if (typeof window === "undefined") return null;
+
+    const params = new URLSearchParams(window.location.search);
+    const str = params.get(name);
+    if (!str) return null;
+
+    try {
+      // Convert base64 to Uint8Array
+      const binaryString = atob(str);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // Decode array and convert back to object
+      const [version, state] = decode(bytes) as [number, unknown[]];
+      return {
+        version,
+        state: Object.fromEntries(keys.map((key, index) => [key, state[index]])) as S,
+      };
+    } catch (error) {
+      console.error("Failed to decode state from URL:", error);
+      return null;
+    }
+  },
+
+  setItem: (name, value) => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    // Convert object to array format using the provided keys order
+    const arrayState = keys.map((key) => value.state[key]);
+    const encoded = encode([value.version, arrayState]);
+
+    // Convert Uint8Array to base64
+    let binaryString = "";
+    for (let i = 0; i < encoded.length; i++) {
+      binaryString += String.fromCharCode(encoded[i]);
+    }
+    const base64 = btoa(binaryString);
+
+    params.set(name, base64);
+    window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+  },
+
+  removeItem: (name) => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    params.delete(name);
+    window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+  },
+});
+
+// Define the keys we want to persist
+const PERSISTED_KEYS = [
+  "selectedHero",
+  "selectedItems",
+  "excludedItems",
+  "minBadgeLevel",
+] as const satisfies StateKeys<AnalysisState>;
+
 export const useAnalysisStore = create(
   persist(analysisSlice, {
-    version: 0,
     name: "analysis-store",
-    partialize: (state) =>
-      Object.fromEntries(Object.entries(state).filter(([key]) => !["analysisResult"].includes(key))),
+    storage: createURLStorage(PERSISTED_KEYS),
+    partialize: (state) => ({
+      selectedHero: state.selectedHero,
+      selectedItems: state.selectedItems,
+      excludedItems: state.excludedItems,
+      minBadgeLevel: state.minBadgeLevel,
+    }),
   }),
 );
