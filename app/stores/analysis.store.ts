@@ -11,6 +11,7 @@ export type AnalysisResult = {
     item: ItemData;
     winRate: number;
     sampleSize: number;
+    uniqueUsers: number;
   }[];
   pickRate: {
     item: string;
@@ -115,10 +116,18 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
       );
 
       if (!result.ok) {
-        throw new Error("Failed to fetch analysis", { cause: result.statusText });
+        throw new Error("Failed to fetch analysis", {
+          cause: result.statusText,
+        });
       }
 
-      const data: { item_id: number; win_rate: number; total: number; wins: number }[] = await result.json();
+      const data: {
+        item_id: number;
+        win_rate: number;
+        total: number;
+        wins: number;
+        unique_users: number;
+      }[] = await result.json();
       const filteredData = data.filter((item) => Item.byIdNullable(item.item_id) !== null);
 
       filteredData.sort((a, b) => b.win_rate - a.win_rate);
@@ -129,6 +138,7 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
             item: Item.byId(item.item_id),
             winRate: item.win_rate,
             sampleSize: item.total,
+            uniqueUsers: item.unique_users,
           })),
           pickRate: [],
         },

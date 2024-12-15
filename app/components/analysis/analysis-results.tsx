@@ -132,6 +132,7 @@ export function AnalysisResults() {
               >
                 Sample Size {getSortIcon("sample")}
               </TableHead>
+              <TableHead className="h-8 text-right whitespace-nowrap">Unique Users</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -160,6 +161,9 @@ export function AnalysisResults() {
                   <TableCell className="h-7 py-1 text-right tabular-nums">
                     {result.sampleSize.toLocaleString()}
                     <span className="text-muted-foreground ml-1">({presenceRatio}%)</span>
+                  </TableCell>
+                  <TableCell className="h-7 py-1 text-right tabular-nums">
+                    {result.uniqueUsers.toLocaleString()}
                   </TableCell>
                 </TableRow>
               );
