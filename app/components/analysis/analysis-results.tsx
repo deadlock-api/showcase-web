@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAnalysisStore } from "@/stores/analysis.store";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { InfoIcon, ArrowUpDown } from "lucide-react";
+import { InfoIcon, ArrowUpDown, PlusIcon, MinusIcon } from "lucide-react";
 import type { ItemData } from "@/lib/Item";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -36,7 +36,7 @@ type SortField = "wilson" | "raw" | "sample";
 type SortDirection = "asc" | "desc";
 
 export function AnalysisResults() {
-  const { analysisResult, selectedItems } = useAnalysisStore();
+  const { analysisResult, selectedItems, addSelectedItem, removeSelectedItem } = useAnalysisStore();
   const [sortField, setSortField] = useState<SortField>("wilson");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
 
@@ -88,6 +88,15 @@ export function AnalysisResults() {
     );
   };
 
+  // Update handler for item selection/deselection
+  const handleItemClick = (itemId: number) => {
+    if (selectedItems.includes(itemId)) {
+      removeSelectedItem(itemId);
+    } else {
+      addSelectedItem(itemId);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div>
@@ -132,7 +141,19 @@ export function AnalysisResults() {
               >
                 Sample Size {getSortIcon("sample")}
               </TableHead>
-              <TableHead className="h-8 text-right whitespace-nowrap">Unique Users</TableHead>
+              <TableHead className="h-8 text-right whitespace-nowrap flex items-center justify-end gap-1 cursor-pointer">
+                Unique Players
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <InfoIcon className="h-4 w-4 ml-1 text-muted-foreground" />
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      <p>The number of unique players who have played with this item under this combination.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -146,13 +167,30 @@ export function AnalysisResults() {
               return (
                 <TableRow
                   key={result.item.id}
-                  className={cn("hover:bg-muted/50", isSelected && "bg-slate-100 hover:bg-slate-100/75")}
+                  className={cn("group hover:bg-muted/50", isSelected && "bg-slate-100 hover:bg-slate-100/75")}
                 >
-                  <TableCell className="h-7 py-1">
-                    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-sm ${itemTypeColor}`}>
-                      {result.item.name}
-                      <span className="ml-1 opacity-70">T{result.item.tier}</span>
-                    </span>
+                  <TableCell className="h-7 py-0">
+                    <div className="flex items-center">
+                      <button
+                        className="cursor-pointer w-12 h-6 flex-shrink-0 mr-4"
+                        onClick={() => handleItemClick(result.item.id)}
+                        type="button"
+                      >
+                        {isSelected ? (
+                          <div className="h-full w-full rounded flex items-center justify-center group-hover:bg-red-500/10 group-hover:ring-1 ring-inset ring-red-500/20">
+                            <MinusIcon className="h-4 w-4 text-red-500/70 opacity-0 group-hover:opacity-100" />
+                          </div>
+                        ) : (
+                          <div className="h-full w-full rounded flex items-center justify-center group-hover:bg-emerald-500/10 group-hover:ring-1 ring-inset ring-emerald-500/20">
+                            <PlusIcon className="h-4 w-4 text-emerald-500/70 opacity-0 group-hover:opacity-100" />
+                          </div>
+                        )}
+                      </button>
+                      <span className={`inline-flex items-center rounded-md px-2 py-0.5 my-1 text-sm ${itemTypeColor}`}>
+                        {result.item.name}
+                        <span className="ml-1 opacity-70">T{result.item.tier}</span>
+                      </span>
+                    </div>
                   </TableCell>
                   <TableCell className="h-7 py-1 text-right tabular-nums">{(lowerBound * 100).toFixed(1)}%</TableCell>
                   <TableCell className="h-7 py-1 text-right tabular-nums">
