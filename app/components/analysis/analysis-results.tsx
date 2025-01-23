@@ -172,7 +172,7 @@ export function AnalysisResults() {
                   <TableCell className="h-7 py-0">
                     <div className="flex items-center">
                       <button
-                        className="cursor-pointer w-12 h-6 flex-shrink-0 mr-4"
+                        className="cursor-pointer w-12 h-6 shrink-0 mr-4"
                         onClick={() => handleItemClick(result.item.id)}
                         type="button"
                       >
