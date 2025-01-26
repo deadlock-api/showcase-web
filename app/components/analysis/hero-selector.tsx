@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAnalysisStore } from "@/stores/analysis.store";
+import { toTitleCase } from "~/lib/utils";
 
 interface Hero {
   id: number;
@@ -12,17 +13,17 @@ export function HeroSelector() {
   const { selectedHero, setSelectedHero } = useAnalysisStore();
   const [heroes, setHeroes] = useState<Hero[]>([]);
 
-  const fetchHeroes = async () => {
-    try {
-      const response = await fetch("https://assets.deadlock-api.com/v2/heroes?only_active=true");
-      const data = await response.json();
-      setHeroes(data);
-    } catch (error) {
-      console.error("Error fetching heroes:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchHeroes = async () => {
+      try {
+        const response = await fetch("https://assets.deadlock-api.com/v2/heroes?only_active=true");
+        const data = await response.json();
+        setHeroes(data);
+      } catch (error) {
+        console.error("Error fetching heroes:", error);
+      }
+    };
+
     fetchHeroes();
   }, []);
 
@@ -43,7 +44,7 @@ export function HeroSelector() {
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((hero) => (
             <SelectItem key={hero.id} value={hero.id.toString()}>
-              {hero.name}
+              {toTitleCase(hero.name)}
             </SelectItem>
           ))}
       </SelectContent>
