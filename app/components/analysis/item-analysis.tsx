@@ -9,7 +9,7 @@ import { Item } from "../../lib/Item";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function DeadlockAnalysis() {
+export function ItemAnalysis() {
   const {
     selectedHero,
     selectedItems,

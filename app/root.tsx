@@ -34,8 +34,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { NavHeader } from "./components/layout/nav-header";
+
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <NavHeader />
+      <Outlet />
+    </>
+  );
 }
 
 export function HydrateFallback() {
