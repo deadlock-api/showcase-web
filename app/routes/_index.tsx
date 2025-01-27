@@ -18,7 +18,7 @@ export default function Index() {
           <Button variant="outline" className="w-full justify-start text-left">
             <div>
               <div className="font-semibold">Build Analysis</div>
-              <div className="text-sm text-muted-foreground">Coming soon - Analyze complete build patterns</div>
+              <div className="text-sm text-muted-foreground">Analyze complete builds</div>
             </div>
           </Button>
         </Link>
