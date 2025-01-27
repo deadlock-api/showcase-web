@@ -9,7 +9,7 @@ interface Hero {
   // Add other properties as needed
 }
 
-export function HeroSelector() {
+export function HeroSelector({ onChange }: { onChange?: (value: number) => void }) {
   const { selectedHero, setSelectedHero } = useAnalysisStore();
   const [heroes, setHeroes] = useState<Hero[]>([]);
 
@@ -32,8 +32,10 @@ export function HeroSelector() {
       value={selectedHero?.toString()}
       onValueChange={(value) => {
         const hero = heroes.find((h) => h.id === Number(value));
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        setSelectedHero(hero!.id);
+        if (!hero) return;
+
+        setSelectedHero(hero.id);
+        if (onChange) onChange(hero.id);
       }}
     >
       <SelectTrigger className="w-[200px]">
