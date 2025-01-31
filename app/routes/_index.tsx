@@ -22,6 +22,14 @@ export default function Index() {
             </div>
           </Button>
         </Link>
+        <Link to="/hero-stats">
+          <Button variant="outline" className="w-full justify-start text-left">
+            <div>
+              <div className="font-semibold">Hero Win-/Pickrate Stats</div>
+              <div className="text-sm text-muted-foreground">Analyze hero win and pick rates</div>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

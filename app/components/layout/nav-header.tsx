@@ -17,6 +17,9 @@ export function NavHeader() {
               <Link to="/build-analysis">
                 <Button variant="ghost">Build Analysis</Button>
               </Link>
+              <Link to="/hero-stats">
+                <Button variant="ghost">Hero Stats</Button>
+              </Link>
             </div>
           </div>
         </nav>
