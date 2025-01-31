@@ -16,7 +16,7 @@ export default function HeroStats() {
   const [maxDate, setMaxDate] = useState<Date>(new Date());
   const [minBadgeLevel, setMinBadgeLevel] = useState(80);
   const [maxBadgeLevel, setMaxBadgeLevel] = useState(116);
-  const [stats, setStats] = useState<HeroStats[]>([]);
+  const [stats, setStats] = useState<HeroStats[] | null>(null);
   const [heroes, setHeroes] = useState<{ [key: number]: string }>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
