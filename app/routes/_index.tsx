@@ -30,6 +30,14 @@ export default function Index() {
             </div>
           </Button>
         </Link>
+        <Link to="/hero-comb-stats">
+          <Button variant="outline" className="w-full justify-start text-left">
+            <div>
+              <div className="font-semibold">Hero Comb Win Stats</div>
+              <div className="text-sm text-muted-foreground">Analyze hero comb winrates</div>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

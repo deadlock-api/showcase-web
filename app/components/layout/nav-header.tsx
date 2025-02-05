@@ -20,6 +20,9 @@ export function NavHeader() {
               <Link to="/hero-stats">
                 <Button variant="ghost">Hero Stats</Button>
               </Link>
+              <Link to="/hero-comb-stats">
+                <Button variant="ghost">Hero Comb Stats</Button>
+              </Link>
             </div>
           </div>
         </nav>
