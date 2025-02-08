@@ -36,7 +36,7 @@ export function ItemAnalysis() {
               <p className="text-sm font-medium text-muted-foreground">STEP 1</p>
               <h3 className="text-lg font-medium">Choose your Hero and Rank Filter</h3>
             </div>
-            <div className="inline-flex gap-4 items-start">
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
               <div>
                 <HeroSelector />
               </div>
@@ -82,57 +82,47 @@ export function ItemAnalysis() {
           </div>
 
           {/* Selected and Excluded Items Display */}
-          <div className="space-y-2">
+          <div className="space-y-4">
+            {/* Selected Items */}
             {selectedItems.length > 0 && (
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <h3 className="text-sm font-medium">Required Items:</h3>
-                <div className="grid grid-cols-4 gap-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                   {selectedItems
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
                       <button
-                        type="button"
                         key={item.id}
+                        type="button"
                         onClick={() => removeSelectedItem(item.id)}
-                        className={cn(
-                          "rounded border border-primary bg-primary/10 px-2 py-1 text-sm",
-                          "hover:bg-primary/20 hover:border-primary/50 cursor-pointer",
-                          "transition-colors duration-200 group relative",
-                        )}
+                        className="w-full rounded border border-primary bg-primary/10 px-2 py-1 text-sm 
+                       hover:bg-primary/20 hover:border-primary/50 transition-colors duration-200"
                       >
                         {item.name}
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          -
-                        </span>
                       </button>
                     ))}
                 </div>
               </div>
             )}
 
+            {/* Excluded Items */}
             {excludedItems.length > 0 && (
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <h3 className="text-sm font-medium">Excluded Items:</h3>
-                <div className="grid grid-cols-4 gap-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                   {excludedItems
                     .map((itemId) => Item.byId(itemId))
                     .sort(Item.compare)
                     .map((item) => (
                       <button
-                        type="button"
                         key={item.id}
+                        type="button"
                         onClick={() => removeExcludedItem(item.id)}
-                        className={cn(
-                          "rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm",
-                          "hover:bg-destructive/20 hover:border-destructive/50 cursor-pointer",
-                          "transition-colors duration-200 group relative",
-                        )}
+                        className="w-full rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm 
+                       hover:bg-destructive/20 hover:border-destructive/50 transition-colors duration-200"
                       >
                         {item.name}
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          -
-                        </span>
                       </button>
                     ))}
                 </div>
@@ -146,7 +136,7 @@ export function ItemAnalysis() {
             disabled={!selectedHero || selectedItems.length === 0 || isLoading}
             onClick={() => submitAnalysis()}
           >
-            {isLoading ? "Analyzing..." : "Submit For Analysis"}
+            {isLoading ? "Analysing..." : "Submit For Analysis"}
           </Button>
 
           {/* Analysis Results */}
