@@ -63,11 +63,20 @@ export function ItemAnalysis() {
               <p className="text-sm font-medium text-muted-foreground">STEP 2</p>
               <h3 className="text-lg font-medium">Filter and exclude build items</h3>
             </div>
-            <Tabs defaultValue="Weapon">
-              <TabsList>
-                <TabsTrigger value="Weapon">Weapon Items</TabsTrigger>
-                <TabsTrigger value="Vitality">Vitality Items</TabsTrigger>
-                <TabsTrigger value="Spirit">Spirit Items</TabsTrigger>
+            <Tabs defaultValue="Weapon" className="w-full">
+              <TabsList className="w-full justify-start">
+                <TabsTrigger value="Weapon" className="flex-1">
+                  <span className="block sm:hidden">Weapon</span>
+                  <span className="hidden sm:block">Weapon Items</span>
+                </TabsTrigger>
+                <TabsTrigger value="Vitality" className="flex-1">
+                  <span className="block sm:hidden">Vitality</span>
+                  <span className="hidden sm:block">Vitality Items</span>
+                </TabsTrigger>
+                <TabsTrigger value="Spirit" className="flex-1">
+                  <span className="block sm:hidden">Spirit</span>
+                  <span className="hidden sm:block">Spirit Items</span>
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="Weapon">
                 <ItemSelector category="Weapon" />
