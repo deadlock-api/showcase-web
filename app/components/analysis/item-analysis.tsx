@@ -27,21 +27,28 @@ export function ItemAnalysis() {
       <Card>
         <CardHeader>
           <CardTitle>Deadlock Winrate Analysis</CardTitle>
-          <p className="text-sm text-muted-foreground">Data from latest patch (2024-12-06) to present</p>
+          <p className="text-sm text-muted-foreground">
+            Data from latest patch (2024-12-06) to present
+          </p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Hero and Rank Selection */}
           <div className="space-y-2">
             <div className="space-y-1.5">
               <p className="text-sm font-medium text-muted-foreground">STEP 1</p>
-              <h3 className="text-lg font-medium">Choose your Hero and Rank Filter</h3>
+              <h3 className="text-lg font-medium">
+                Choose your Hero and Rank Filter
+              </h3>
             </div>
-            <div className="inline-flex gap-4 items-start">
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
               <div>
                 <HeroSelector />
               </div>
               <div>
-                <Select value={minBadgeLevel.toString()} onValueChange={(value) => setMinBadgeLevel(Number(value))}>
+                <Select
+                  value={minBadgeLevel.toString()}
+                  onValueChange={(value) => setMinBadgeLevel(Number(value))}
+                >
                   <SelectTrigger className="h-10">
                     <SelectValue placeholder="Minimum Rank" />
                   </SelectTrigger>
@@ -61,7 +68,9 @@ export function ItemAnalysis() {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <p className="text-sm font-medium text-muted-foreground">STEP 2</p>
-              <h3 className="text-lg font-medium">Filter and exclude build items</h3>
+              <h3 className="text-lg font-medium">
+                Filter and exclude build items
+              </h3>
             </div>
             <Tabs defaultValue="Weapon">
               <TabsList>
@@ -82,62 +91,53 @@ export function ItemAnalysis() {
           </div>
 
           {/* Selected and Excluded Items Display */}
-          <div className="space-y-2">
-            {selectedItems.length > 0 && (
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium">Required Items:</h3>
-                <div className="grid grid-cols-4 gap-1">
-                  {selectedItems
-                    .map((itemId) => Item.byId(itemId))
-                    .sort(Item.compare)
-                    .map((item) => (
-                      <button
-                        type="button"
-                        key={item.id}
-                        onClick={() => removeSelectedItem(item.id)}
-                        className={cn(
-                          "rounded border border-primary bg-primary/10 px-2 py-1 text-sm",
-                          "hover:bg-primary/20 hover:border-primary/50 cursor-pointer",
-                          "transition-colors duration-200 group relative",
-                        )}
-                      >
-                        {item.name}
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          -
-                        </span>
-                      </button>
-                    ))}
-                </div>
-              </div>
-            )}
+          <div className="space-y-4">
+{/* Selected Items */}
+{selectedItems.length > 0 && (
+  <div className="space-y-2">
+    <h3 className="text-sm font-medium">Required Items:</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      {selectedItems
+        .map((itemId) => Item.byId(itemId))
+        .sort(Item.compare)
+        .map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => removeSelectedItem(item.id)}
+            className="w-full rounded border border-primary bg-primary/10 px-2 py-1 text-sm 
+                       hover:bg-primary/20 hover:border-primary/50 transition-colors duration-200"
+          >
+            {item.name}
+          </button>
+        ))}
+    </div>
+  </div>
+)}
 
-            {excludedItems.length > 0 && (
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium">Excluded Items:</h3>
-                <div className="grid grid-cols-4 gap-1">
-                  {excludedItems
-                    .map((itemId) => Item.byId(itemId))
-                    .sort(Item.compare)
-                    .map((item) => (
-                      <button
-                        type="button"
-                        key={item.id}
-                        onClick={() => removeExcludedItem(item.id)}
-                        className={cn(
-                          "rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm",
-                          "hover:bg-destructive/20 hover:border-destructive/50 cursor-pointer",
-                          "transition-colors duration-200 group relative",
-                        )}
-                      >
-                        {item.name}
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          -
-                        </span>
-                      </button>
-                    ))}
-                </div>
-              </div>
-            )}
+{/* Excluded Items */}
+{excludedItems.length > 0 && (
+  <div className="space-y-2">
+    <h3 className="text-sm font-medium">Excluded Items:</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      {excludedItems
+        .map((itemId) => Item.byId(itemId))
+        .sort(Item.compare)
+        .map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => removeExcludedItem(item.id)}
+            className="w-full rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm 
+                       hover:bg-destructive/20 hover:border-destructive/50 transition-colors duration-200"
+          >
+            {item.name}
+          </button>
+        ))}
+    </div>
+  </div>
+)}
+
           </div>
 
           {/* Submit Button */}
@@ -146,7 +146,7 @@ export function ItemAnalysis() {
             disabled={!selectedHero || selectedItems.length === 0 || isLoading}
             onClick={() => submitAnalysis()}
           >
-            {isLoading ? "Analyzing..." : "Submit For Analysis"}
+            {isLoading ? "Analysing..." : "Submit For Analysis"}
           </Button>
 
           {/* Analysis Results */}

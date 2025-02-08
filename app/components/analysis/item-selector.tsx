@@ -178,7 +178,7 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
   return (
     <div className="space-y-2 p-2">
       {(selectedItems.length > 0 || excludedItems.length > 0) && (
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1">
           <Button variant="ghost" className="h-8 text-sm text-muted-foreground" onClick={handleDeselectAll}>
             Clear All
           </Button>
@@ -195,7 +195,7 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
       {(["T1", "T2", "T3", "T4"] as const).map((tier) => (
         <div key={tier} className="space-y-1">
           <h4 className="font-medium">{tier}</h4>
-          <div className="grid grid-cols-5 gap-1">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1">
             {itemsByCategory[category][tier].map((itemName) => {
               const item = Item.byName(itemName);
               const isSelected = selectedItems.includes(item.id);
@@ -205,7 +205,7 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
                 <Button
                   key={item.id}
                   variant={isSelected ? "default" : isExcluded ? "destructive" : "outline"}
-                  className={cn("w-full h-8 text-sm px-2", isExcluded && "hover:bg-destructive/90")}
+                  className={cn("w-full h-8 text-sm px-2 truncate", isExcluded && "hover:bg-destructive/90")}
                   onClick={() => handleItemClick(item.id)}
                 >
                   {item.name}
