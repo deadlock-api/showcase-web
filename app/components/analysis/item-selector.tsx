@@ -205,7 +205,7 @@ export function ItemSelector({ category }: { category: ItemCategory }) {
                 <Button
                   key={item.id}
                   variant={isSelected ? "default" : isExcluded ? "destructive" : "outline"}
-                  className={cn("w-full h-8 text-sm px-2 truncate", isExcluded && "hover:bg-destructive/90")}
+                  className={cn("w-full h-8 text-sm sm:text-xs px-2 truncate", isExcluded && "hover:bg-destructive/90")}
                   onClick={() => handleItemClick(item.id)}
                 >
                   {item.name}

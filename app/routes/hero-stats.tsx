@@ -151,7 +151,7 @@ export default function HeroStats() {
       ) : error ? (
         <div className="py-8 text-center text-red-500">{error}</div>
       ) : stats ? (
-        <Table>
+        <Table className="w-full table-fixed">
           <TableHeader>
             <TableRow>
               <TableHead>Hero</TableHead>
