@@ -1,10 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useAnalysisStore } from "@/stores/analysis.store";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { InfoIcon, ArrowUpDown, PlusIcon, MinusIcon } from "lucide-react";
 import type { ItemData } from "@/lib/Item";
 import { cn } from "@/lib/utils";
+import { useAnalysisStore } from "@/stores/analysis.store";
+import { ArrowUpDown, InfoIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 // Wilson score interval for 95% confidence
 function wilsonScore(wins: number, total: number): number {

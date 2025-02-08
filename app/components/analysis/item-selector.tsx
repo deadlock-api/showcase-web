@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { type ItemCategory, useAnalysisStore } from "@/stores/analysis.store";
 import { Item } from "@/lib/Item";
 import { cn } from "@/lib/utils";
+import { type ItemCategory, useAnalysisStore } from "@/stores/analysis.store";
 
 // Define the weapon names by tier for organization
 const weaponsByTier = {

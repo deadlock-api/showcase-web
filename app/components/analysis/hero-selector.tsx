@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAnalysisStore } from "@/stores/analysis.store";
+import { useEffect, useState } from "react";
 import { toTitleCase } from "~/lib/utils";
 
 interface Hero {

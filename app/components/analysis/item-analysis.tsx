@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import { useAnalysisStore } from "@/stores/analysis.store";
+import { Item } from "../../lib/Item";
+import { AnalysisResults } from "./analysis-results";
 import { HeroSelector } from "./hero-selector";
 import { ItemSelector } from "./item-selector";
-import { AnalysisResults } from "./analysis-results";
-import { Item } from "../../lib/Item";
-import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function ItemAnalysis() {
   const {
@@ -27,28 +27,21 @@ export function ItemAnalysis() {
       <Card>
         <CardHeader>
           <CardTitle>Deadlock Winrate Analysis</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Data from latest patch (2024-12-06) to present
-          </p>
+          <p className="text-sm text-muted-foreground">Data from latest patch (2024-12-06) to present</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Hero and Rank Selection */}
           <div className="space-y-2">
             <div className="space-y-1.5">
               <p className="text-sm font-medium text-muted-foreground">STEP 1</p>
-              <h3 className="text-lg font-medium">
-                Choose your Hero and Rank Filter
-              </h3>
+              <h3 className="text-lg font-medium">Choose your Hero and Rank Filter</h3>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-start">
               <div>
                 <HeroSelector />
               </div>
               <div>
-                <Select
-                  value={minBadgeLevel.toString()}
-                  onValueChange={(value) => setMinBadgeLevel(Number(value))}
-                >
+                <Select value={minBadgeLevel.toString()} onValueChange={(value) => setMinBadgeLevel(Number(value))}>
                   <SelectTrigger className="h-10">
                     <SelectValue placeholder="Minimum Rank" />
                   </SelectTrigger>
@@ -68,27 +61,25 @@ export function ItemAnalysis() {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <p className="text-sm font-medium text-muted-foreground">STEP 2</p>
-              <h3 className="text-lg font-medium">
-                Filter and exclude build items
-              </h3>
+              <h3 className="text-lg font-medium">Filter and exclude build items</h3>
             </div>
             <Tabs defaultValue="Weapon" className="w-full">
-            <TabsList className="w-full justify-start">
-              <TabsTrigger value="Weapon" className="flex-1">
-                {/* Mobile view: only "Weapon" */}
-                <span className="block sm:hidden">Weapon</span>
-                {/* Larger screens: "Weapon Items" */}
-                <span className="hidden sm:block">Weapon Items</span>
-              </TabsTrigger>
-              <TabsTrigger value="Vitality" className="flex-1">
-                <span className="block sm:hidden">Vitality</span>
-                <span className="hidden sm:block">Vitality Items</span>
-              </TabsTrigger>
-              <TabsTrigger value="Spirit" className="flex-1">
-                <span className="block sm:hidden">Spirit</span>
-                <span className="hidden sm:block">Spirit Items</span>
-              </TabsTrigger>
-            </TabsList>
+              <TabsList className="w-full justify-start">
+                <TabsTrigger value="Weapon" className="flex-1">
+                  {/* Mobile view: only "Weapon" */}
+                  <span className="block sm:hidden">Weapon</span>
+                  {/* Larger screens: "Weapon Items" */}
+                  <span className="hidden sm:block">Weapon Items</span>
+                </TabsTrigger>
+                <TabsTrigger value="Vitality" className="flex-1">
+                  <span className="block sm:hidden">Vitality</span>
+                  <span className="hidden sm:block">Vitality Items</span>
+                </TabsTrigger>
+                <TabsTrigger value="Spirit" className="flex-1">
+                  <span className="block sm:hidden">Spirit</span>
+                  <span className="hidden sm:block">Spirit Items</span>
+                </TabsTrigger>
+              </TabsList>
               <TabsContent value="Weapon">
                 <ItemSelector category="Weapon" />
               </TabsContent>
@@ -103,52 +94,51 @@ export function ItemAnalysis() {
 
           {/* Selected and Excluded Items Display */}
           <div className="space-y-4">
-{/* Selected Items */}
-{selectedItems.length > 0 && (
-  <div className="space-y-2">
-    <h3 className="text-sm font-medium">Required Items:</h3>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-      {selectedItems
-        .map((itemId) => Item.byId(itemId))
-        .sort(Item.compare)
-        .map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => removeSelectedItem(item.id)}
-            className="w-full rounded border border-primary bg-primary/10 px-2 py-1 text-sm 
+            {/* Selected Items */}
+            {selectedItems.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium">Required Items:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {selectedItems
+                    .map((itemId) => Item.byId(itemId))
+                    .sort(Item.compare)
+                    .map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => removeSelectedItem(item.id)}
+                        className="w-full rounded border border-primary bg-primary/10 px-2 py-1 text-sm 
                        hover:bg-primary/20 hover:border-primary/50 transition-colors duration-200"
-          >
-            {item.name}
-          </button>
-        ))}
-    </div>
-  </div>
-)}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                </div>
+              </div>
+            )}
 
-{/* Excluded Items */}
-{excludedItems.length > 0 && (
-  <div className="space-y-2">
-    <h3 className="text-sm font-medium">Excluded Items:</h3>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-      {excludedItems
-        .map((itemId) => Item.byId(itemId))
-        .sort(Item.compare)
-        .map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => removeExcludedItem(item.id)}
-            className="w-full rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm 
+            {/* Excluded Items */}
+            {excludedItems.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium">Excluded Items:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {excludedItems
+                    .map((itemId) => Item.byId(itemId))
+                    .sort(Item.compare)
+                    .map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => removeExcludedItem(item.id)}
+                        className="w-full rounded border border-destructive bg-destructive/10 px-2 py-1 text-sm 
                        hover:bg-destructive/20 hover:border-destructive/50 transition-colors duration-200"
-          >
-            {item.name}
-          </button>
-        ))}
-    </div>
-  </div>
-)}
-
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Submit Button */}
