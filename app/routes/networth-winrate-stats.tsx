@@ -128,7 +128,7 @@ export default function NetworthWinrateStats() {
           </div>
           <div className="flex-1">
             <label htmlFor="min-date-input" className="text-xs">
-              Min Date
+              Max Badge
             </label>
             <Select value={maxBadgeLevel.toString()} onValueChange={(value) => setMaxBadgeLevel(Number(value))}>
               <SelectTrigger className="h-10">
