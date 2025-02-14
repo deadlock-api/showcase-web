@@ -27,6 +27,9 @@ export function NavHeader() {
             <Link to="/hero-comb-stats">
               <Button variant="ghost">Hero Comb Stats</Button>
             </Link>
+            <Link to="/networth-winrate-stats">
+              <Button variant="ghost">Networth Winrate Stats</Button>
+            </Link>
           </div>
           {/* Mobile Menu Toggle */}
           <div className="md:hidden">
@@ -73,6 +76,11 @@ export function NavHeader() {
             <Link to="/hero-comb-stats">
               <Button variant="ghost" className="w-full text-left">
                 Hero Comb Stats
+              </Button>
+            </Link>
+            <Link to="/networth-winrate-stats">
+              <Button variant="ghost" className="w-full text-left">
+                Networth Winrate Stats
               </Button>
             </Link>
           </div>

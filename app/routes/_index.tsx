@@ -38,6 +38,14 @@ export default function Index() {
             </div>
           </Button>
         </Link>
+        <Link to="/networth-winrate-stats">
+          <Button variant="outline" className="w-full justify-start text-left">
+            <div>
+              <div className="font-semibold">Networth Winrate Stats</div>
+              <div className="text-sm text-muted-foreground">Analyze networth winrates</div>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );
