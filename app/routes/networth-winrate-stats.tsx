@@ -22,8 +22,8 @@ export default function NetworthWinrateStats() {
   const [maxDate, setMaxDate] = useState<Date>(new Date());
   const [minBadgeLevel, setMinBadgeLevel] = useState(80);
   const [maxBadgeLevel, setMaxBadgeLevel] = useState(116);
-  const [minDuration, setMinDuration] = useState(1200);
-  const [maxDuration, setMaxDuration] = useState(110 * 60);
+  const [minDuration, setMinDuration] = useState(30 * 60);
+  const [maxDuration, setMaxDuration] = useState(50 * 60);
   const [minNetworthAdvantage, setMinNetworthAdvantage] = useState(2000);
   const [maxNetworthAdvantage, setMaxNetworthAdvantage] = useState(100000);
   const [stats, setStats] = useState<NetworthWinrateStatsProps | null>(null);
