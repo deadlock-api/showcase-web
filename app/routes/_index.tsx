@@ -46,6 +46,14 @@ export default function Index() {
             </div>
           </Button>
         </Link>
+        <Link to="/chat-with-db">
+          <Button variant="outline" className="w-full justify-start text-left">
+            <div>
+              <div className="font-semibold">Chat with Database</div>
+              <div className="text-sm text-muted-foreground">Use a LLM to query the database</div>
+            </div>
+          </Button>
+        </Link>
       </div>
     </div>
   );

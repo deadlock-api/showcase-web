@@ -14,7 +14,7 @@ export function NavHeader() {
             Deadlock API - Showcase
           </Link>
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Link to="/item-analysis">
               <Button variant="ghost">Item Analysis</Button>
             </Link>
@@ -30,9 +30,12 @@ export function NavHeader() {
             <Link to="/networth-winrate-stats">
               <Button variant="ghost">Networth Winrate Stats</Button>
             </Link>
+            <Link to="/chat-with-db">
+              <Button variant="ghost">Chat with Database</Button>
+            </Link>
           </div>
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle mobile menu"
@@ -56,7 +59,7 @@ export function NavHeader() {
       </div>
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
             <Link to="/item-analysis">
               <Button variant="ghost" className="w-full text-left">
@@ -81,6 +84,11 @@ export function NavHeader() {
             <Link to="/networth-winrate-stats">
               <Button variant="ghost" className="w-full text-left">
                 Networth Winrate Stats
+              </Button>
+            </Link>
+            <Link to="/chat-with-db">
+              <Button variant="ghost" className="w-full text-left">
+                Chat with Database
               </Button>
             </Link>
           </div>
