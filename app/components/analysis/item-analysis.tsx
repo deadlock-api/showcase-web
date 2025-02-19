@@ -27,7 +27,7 @@ export function ItemAnalysis() {
       <Card>
         <CardHeader>
           <CardTitle>Deadlock Winrate Analysis</CardTitle>
-          <p className="text-sm text-muted-foreground">Data from latest patch (2024-12-06) to present</p>
+          <p className="text-sm text-muted-foreground">Data from latest significant patch (2024-01-17) to present</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Hero and Rank Selection */}
