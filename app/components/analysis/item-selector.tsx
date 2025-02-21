@@ -98,7 +98,7 @@ const itemsByCategory = {
       "Superior Stamina",
       "Veil Walker",
     ],
-    T4: ["Colossus", "Inhibitor", "Leech", "Phantom Strike", "Siphon Bullets", "Soul Rebirth", "Unstoppable"],
+    T4: ["Colossus", "Inhibitor", "Leech", "Phantom Strike", "Siphon Bullets", "Unstoppable"],
   },
   Spirit: {
     T1: ["Ammo Scavenger", "Extra Charge", "Extra Spirit", "Infuser", "Mystic Burst", "Mystic Reach", "Spirit Strike"],
