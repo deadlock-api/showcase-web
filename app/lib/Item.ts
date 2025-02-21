@@ -31,12 +31,12 @@ const itemDataFromRawItemNullable = (raw: any): ItemData | null => {
 
 export const Item = {
   byId(id: number): ItemData {
-    const item = rawItems.find((item) => item.id === id);
+    const item = rawItems.find((item) => item.id === id && !item.disabled);
     if (!item) throw new Error(`Item with id ${id} not found`);
     return itemDataFromRawItem(item);
   },
   byIdNullable(id: number): ItemData | null {
-    const item = rawItems.find((item) => item.id === id);
+    const item = rawItems.find((item) => item.id === id && !item.disabled);
     if (!item) return null;
     return itemDataFromRawItemNullable(item);
   },
