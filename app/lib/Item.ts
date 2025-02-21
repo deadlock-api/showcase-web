@@ -41,7 +41,7 @@ export const Item = {
     return itemDataFromRawItemNullable(item);
   },
   byName(name: string): ItemData {
-    const item = rawItems.find((item) => item.name === name);
+    const item = rawItems.find((item) => item.name === name && !item.disabled);
     if (!item) throw new Error(`Item with name ${name} not found`);
     return itemDataFromRawItem(item);
   },
