@@ -10,6 +10,7 @@ export type AnalysisResult = {
   winRate: {
     item: ItemData;
     winRate: number;
+    wins: number;
     sampleSize: number;
     uniqueUsers: number;
   }[];
@@ -136,7 +137,8 @@ const analysisSlice: StateCreator<AnalysisState & Actions, [["zustand/persist", 
         analysisResult: {
           winRate: filteredData.map((item) => ({
             item: Item.byId(item.item_id),
-            winRate: item.win_rate,
+            winRate: item.wins / item.total,
+            wins: item.wins,
             sampleSize: item.total,
             uniqueUsers: item.unique_users,
           })),

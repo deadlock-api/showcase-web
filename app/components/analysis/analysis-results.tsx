@@ -158,7 +158,7 @@ export function AnalysisResults() {
           </TableHeader>
           <TableBody>
             {sortedWinRateResult.map((result) => {
-              const wins = Math.round(result.winRate * result.sampleSize);
+              const wins = result.wins;
               const lowerBound = wilsonScore(wins, result.sampleSize);
               const itemTypeColor = getItemTypeColor(result.item);
               const isSelected = selectedItems.some((item) => item === result.item.id);
