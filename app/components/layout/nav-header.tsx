@@ -18,9 +18,6 @@ export function NavHeader() {
             <Link to="/item-analysis">
               <Button variant="ghost">Item Analysis</Button>
             </Link>
-            <Link to="/build-analysis">
-              <Button variant="ghost">Build Analysis</Button>
-            </Link>
             <Link to="/hero-stats">
               <Button variant="ghost">Hero Stats</Button>
             </Link>
@@ -61,11 +58,6 @@ export function NavHeader() {
             <Link to="/item-analysis">
               <Button variant="ghost" className="w-full text-left">
                 Item Analysis
-              </Button>
-            </Link>
-            <Link to="/build-analysis">
-              <Button variant="ghost" className="w-full text-left">
-                Build Analysis
               </Button>
             </Link>
             <Link to="/hero-stats">
