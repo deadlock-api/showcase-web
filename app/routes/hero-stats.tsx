@@ -33,7 +33,7 @@ export default function HeroStats() {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://analytics.deadlock-api.com/v2/hero-win-loss-stats?${params}`);
+        const response = await fetch(`https://api.deadlock-api.com/v1/analytics/hero-win-loss-stats?${params}`);
         if (!response.ok) {
           setError("Failed to fetch hero stats");
           setStats([]);
